@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full shadow-lg mb-2">
+  <div class="w-full h-full shadow-lg border-b mb-2">
     <div class="flex h-full items-center">
       <div class="w-[20%] h-full flex justify-center items-center my-auto">
         <div class="">
