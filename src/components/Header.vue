@@ -30,7 +30,7 @@
       </div>
       <div class="w-[20%] h-full flex items-center justify-evenly">
         <div class="flex justify-evenly items-center w-full h-full">
-          <div>Cart</div>
+          <div @click="uiStore.toggleCart(true)" class="hover-underline-animation hover:text-black">Cart</div>
           <div>Account</div>
         </div>
       </div>

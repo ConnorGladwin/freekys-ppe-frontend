@@ -1,6 +1,6 @@
 <template>
-  <TransitionRoot as="template" :show="open">
-    <Dialog as="div" class="relative z-10" @close="open = false">
+  <TransitionRoot as="template" :show="uiStore.cartOpen">
+    <Dialog as="div" class="relative z-10" @close="uiStore.cartOpen = false">
       <TransitionChild
         as="template"
         enter="ease-in-out duration-500"
@@ -42,7 +42,7 @@
                         <button
                           type="button"
                           class="-m-2 p-2 text-gray-400 hover:text-gray-500"
-                          @click="open = false"
+                          @click="uiStore.cartOpen = false"
                         >
                           <span class="sr-only">Close panel</span>
                           <XMarkIcon class="h-6 w-6" aria-hidden="true" />
@@ -160,6 +160,9 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { useUiStore } from "../store/uiStore";
+
+const uiStore = useUiStore()
 
 const products = [
   {
@@ -175,6 +178,4 @@ const products = [
 
   // More products...
 ];
-
-const open = ref(true);
 </script>
