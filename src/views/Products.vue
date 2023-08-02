@@ -3,7 +3,9 @@
     <div
       class="mx-auto max-w-2xl mt-3 px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
     >
-      <h2 class="text-2xl font-bold tracking-tight text-gray-900">Products</h2>
+      <h2 class="text-2xl font-bold tracking-tight text-gray-900">
+        {{ route.params.category }}
+      </h2>
 
       <div
         class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
@@ -41,13 +43,17 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
 const products = [
   {
     id: 1,
     name: "Basic Tee",
     href: "#",
     imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+      "C:\Code\freekys\frontend\src\assets\products\Dust Masks\Passion FFP1 (USS-PMD1).jpg",
     imageAlt: "Front of men's Basic Tee in black.",
     price: "R200",
     color: "Black",
