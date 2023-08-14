@@ -5,6 +5,7 @@
         <div
           class="w-[600px] h-[300px] flex justify-center items-center border"
         >
+          <img src="one" alt="" />
           <span class="my-auto">{{ slide }}</span>
         </div>
       </slide>
@@ -20,6 +21,7 @@
 <script lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
+import one from "./carosel/1.jpg";
 
 export default {
   name: "App",

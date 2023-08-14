@@ -7,7 +7,7 @@
           :key="catagory"
           class="w-full h-[315px] border flex justify-center items-center text-xl hover:text-2xl hover:bg-gray-50 hover:shadow-xl hover:border-none transition-all ease-in-out duration-300"
         >
-          <span class="">{{ catagory }}</span>
+          <img src="" alt="" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
