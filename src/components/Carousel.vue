@@ -1,12 +1,11 @@
 <template>
   <div class="w-1/2 h-1/3 mt-10">
     <carousel :items-to-show="1.5" :wrap-around="true" :autoplay="2000">
-      <slide v-for="slide in 8" :key="slide" class=" ">
+      <slide v-for="slide in 7" :key="slide" class=" ">
         <div
           class="w-[600px] h-[300px] flex justify-center items-center border"
         >
-          <img src="one" alt="" />
-          <span class="my-auto">{{ slide }}</span>
+          <CloudinaryImage :image="slide" type="carousel" />
         </div>
       </slide>
 
@@ -18,18 +17,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import one from "./carosel/1.jpg";
+import CloudinaryImage from "../utils/Cloudinary.vue";
 
-export default {
-  name: "App",
-  components: {
-    Carousel,
-    Slide,
-    Pagination,
-    Navigation,
-  },
-};
 </script>
