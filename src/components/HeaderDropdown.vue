@@ -4,15 +4,18 @@
     <MenuItems
       class="absolute border py-2 w-[250px] mx-4 mt-2 bg-white z-50 flex flex-col"
     >
-      <MenuItem v-for="item in menuList" class="hover:bg-gray-100 px-3">
-        <RouterLink
+      <MenuItem
+        v-for="item in menuList"
+        class="hover:bg-gray-100 px-3"
+        
+      >
+        <router-link
           :to="{
             name: 'products',
             params: { category: item.name },
-            query: { subcategories: item.subcategories },
           }"
           >{{ item.name }}
-        </RouterLink>
+        </router-link>
       </MenuItem>
     </MenuItems>
   </Menu>
@@ -21,6 +24,9 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
 import { RouterLink } from "vue-router";
+import { useUiStore } from "../store/uiStore";
+
+const uiStore = useUiStore();
 
 const menuList = [
   {

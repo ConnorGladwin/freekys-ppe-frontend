@@ -1,10 +1,12 @@
 <template>
   <div class="w-screen h-screen bg-white">
-    <div class="h-[8%]">
+    <div class="h-[10%]">
       <Header />
     </div>
     <div class="h-screen w-screen bg-white">
-      <router-view />
+      <Suspense>
+        <router-view></router-view>
+      </Suspense>
     </div>
     <Cart />
     <!-- <div -->

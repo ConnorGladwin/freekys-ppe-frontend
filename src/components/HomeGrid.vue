@@ -5,7 +5,7 @@
         <div
           v-for="catagory in catagoryList"
           :key="catagory"
-          class="w-full h-[315px] border flex justify-center items-center text-xl hover:text-2xl hover:bg-gray-50 hover:shadow-xl hover:border-none transition-all ease-in-out duration-300"
+          class="w-full h-[315px] border flex justify-center items-center text-xl hover:text-2xl hover:bg-gray-50 hover:shadow-xl hover:border-none transition-all ease-in-out duration-300 cursor-pointer"
         >
           <img src="" alt="" class="w-full h-full object-cover" />
         </div>
@@ -25,5 +25,8 @@ const catagoryList = [
   "Category 7",
   "Category 8",
   "Category 9",
+  "Category 10",
+  "Category 11",
+  "Category 12",
 ];
 </script>

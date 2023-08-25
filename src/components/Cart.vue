@@ -55,15 +55,15 @@
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
                           <li
                             v-for="product in products"
-                            :key="product.id"
+                            :key="product?.uuid"
                             class="flex py-6"
                           >
                             <div
                               class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
                             >
                               <img
-                                :src="product.imageSrc"
-                                :alt="product.imageAlt"
+                                :src="product?.imageSrc"
+                                :alt="product?.imageAlt"
                                 class="h-full w-full object-cover object-center"
                               />
                             </div>
@@ -75,13 +75,16 @@
                                 >
                                   <h3>
                                     <a :href="product.href">{{
-                                      product.name
+                                      product.product
                                     }}</a>
                                   </h3>
-                                  <p class="ml-4">{{ product.price }}</p>
+                                  <p class="ml-4">R100</p>
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">
-                                  {{ product.color }}
+                                  {{ product?.brand }}
+                                </p>
+                                <p class="mt-1 text-sm text-gray-500">
+                                  {{ product?.color }}
                                 </p>
                               </div>
                               <div
@@ -112,18 +115,21 @@
                       class="flex justify-between text-base font-medium text-gray-900"
                     >
                       <p>Subtotal</p>
-                      <p>$262.00</p>
+                      <p>R{{ total }}</p>
                     </div>
                     <p class="mt-0.5 text-sm text-gray-500">
                       Shipping and taxes calculated at checkout.
                     </p>
-                    <div class="mt-6">
+                    <router-link
+                      :to="{ name: 'checkout' }"
+                      @click="uiStore.cartOpen = false"
+                      class="mt-6"
+                    >
                       <a
-                        href="#"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                        class="flex items-center justify-center rounded-md border border-transparent bg-[#1c70b8] px-6 py-3 text-base font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200"
                         >Checkout</a
                       >
-                    </div>
+                    </router-link>
                     <div
                       class="mt-6 flex justify-center text-center text-sm text-gray-500"
                     >
@@ -131,7 +137,7 @@
                         or
                         <button
                           type="button"
-                          class="font-medium text-indigo-600 hover:text-indigo-500"
+                          class="font-medium text-[#1c70b8] hover:text-indigo-500"
                           @click="open = false"
                         >
                           Continue Shopping
@@ -151,7 +157,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import {
   Dialog,
   DialogPanel,
@@ -161,21 +167,26 @@ import {
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { useUiStore } from "../store/uiStore";
+import { useCartStore } from "../store/cartStore";
+import router from "../router/Router";
 
-const uiStore = useUiStore()
+const uiStore = useUiStore();
+const cartStore = useCartStore();
 
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: "R200.00",
-    color: "Black",
-  },
+const products = ref(cartStore.items);
 
-  // More products...
-];
+const total = cartStore.items.reduce((a, b) => a + b.price, 0);
+
+watch(
+  () => cartStore.items,
+  () => {
+    products.value = cartStore.items.map((x) => {
+      x.qty = 0;
+      newVal.map((y) => {
+        if (x === y) x.qty++;
+      });
+      return x;
+    });
+  }
+);
 </script>
