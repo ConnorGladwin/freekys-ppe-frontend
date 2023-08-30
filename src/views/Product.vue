@@ -2,8 +2,11 @@
   <div class="h-screen flex justify-center mt-[10%]">
     <div class="w-2/3 h-1/2 flex">
       <div class="w-1/2 h-full flex justify-center">
-        <div class="h-[90%] w-[90%] border flex justify-center items-center">
-          <span class="text-center my-auto">Image</span>
+        <div class="h-[90%] w-[90%] flex justify-center items-center">
+          <ProductImage
+            :image="product?.sku"
+            class="h-full w-auto object-cover object-center group-hover:opacity-75"
+          />
         </div>
       </div>
       <div class="w-1/2 h-full flex items-center">
@@ -32,6 +35,7 @@ import { onMounted, ref } from "vue";
 import { getProduct } from "../utils/queries";
 import { useCartStore } from "../store/cartStore";
 import { useUiStore } from "../store/uiStore";
+import ProductImage from "../utils/Product.vue";
 
 const props = defineProps<{
   id: any;

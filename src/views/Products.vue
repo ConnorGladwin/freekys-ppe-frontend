@@ -10,7 +10,7 @@
         <div
           v-for="category in categories"
           :key="category"
-          class="rounded-lg bg-gray-200 h-[90px]"
+          class="rounded-lg bg-gray-200 h-[90px] border border-gray-300 flex items-center justify-center cursor-pointer"
         >
           <span>{{ category }}</span>
         </div>
@@ -26,11 +26,10 @@
         >
           <router-link :to="{ name: 'product', params: { id: product.uuid } }">
             <div
-              class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7"
+              class="w-full h-auto overflow-hidden rounded-lg bg-gray-200xl:aspect-w-7 shadow-xl"
             >
-              <img
-                :src="product.imageSrc"
-                :alt="product.imageAlt"
+              <ProductImage
+                :image="product.sku"
                 class="h-full w-full object-cover object-center group-hover:opacity-75"
               />
             </div>
@@ -48,29 +47,31 @@ import { watch, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getProductCategory } from "../utils/queries";
 import { useUiStore } from "../store/uiStore";
+import ProductImage from "../utils/Product.vue";
 
 const uiStore = useUiStore();
 const route = useRoute();
 
-const props = defineProps<{
+const props: any = defineProps<{
   category: string;
 }>();
 
 const products = ref([]);
-const categories = ref(["All"]);
+const categories = ref([]);
 
 watch(
   () => route.params.category,
   async (category) => {
     uiStore.productDropdownOpen = false;
     products.value = await getProductCategory(category).then((res) => {
-      const categoryList = [];
-      res.map((x) => {
+      const categoryList: any = [];
+      res.map((x: any) => {
         categoryList.push(x.brand);
       });
       categories.value = categoryList.filter(
-        (v, i) => categoryList.indexOf(v) === i
+        (v: any, i: number) => categoryList.indexOf(v) === i
       );
+      categories.value.unshift("All");
       return res;
     });
   }
@@ -80,13 +81,14 @@ onMounted(async () => {
   uiStore.toggleProductDropdown();
   products.value = await getProductCategory(route.params.category).then(
     (res) => {
-      const categoryList = [];
-      res.map((x) => {
+      const categoryList: any = [];
+      res.map((x: any) => {
         categoryList.push(x.brand);
       });
       categories.value = categoryList.filter(
-        (v, i) => categoryList.indexOf(v) === i
+        (v: any, i: number) => categoryList.indexOf(v) === i
       );
+      categories.value.unshift("All");
       return res;
     }
   );

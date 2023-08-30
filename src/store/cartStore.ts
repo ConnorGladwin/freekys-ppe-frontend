@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { v4 as uuidv4 } from "uuid";
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
@@ -11,16 +12,17 @@ export const useCartStore = defineStore("cart", {
   },
   actions: {
     addItem(item: any) {
-      if (this.items.find((i) => i.uuid === item.uuid)) {
-        item.quantity++;
-      } else {
-        item.quantity = 1;
-        this.items.push(item);
-      }
-      console.log(this.items);
+      this.items.push({
+        id: uuidv4(),
+        ...item,
+      });
     },
     removeItem(item: any) {
-      this.items = this.items.filter((i) => i.id !== item.id);
+      for (let i = 0; i < this.items.length; i++) {
+        if (this.items[i].id === item) {
+          this.items.splice(i, 1);
+        }
+      }
     },
   },
 });

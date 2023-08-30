@@ -59,13 +59,9 @@
                             class="flex py-6"
                           >
                             <div
-                              class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200"
+                              class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md"
                             >
-                              <img
-                                :src="product?.imageSrc"
-                                :alt="product?.imageAlt"
-                                class="h-full w-full object-cover object-center"
-                              />
+                              <ProductImage :image="product?.sku" />
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
@@ -83,6 +79,7 @@
                                 <p class="mt-1 text-sm text-gray-500">
                                   {{ product?.brand }}
                                 </p>
+
                                 <p class="mt-1 text-sm text-gray-500">
                                   {{ product?.color }}
                                 </p>
@@ -97,6 +94,7 @@
                                 <div class="flex">
                                   <button
                                     type="button"
+                                    @click="cartStore.removeItem(product.id)"
                                     class="font-medium text-indigo-600 hover:text-indigo-500"
                                   >
                                     Remove
@@ -168,25 +166,32 @@ import {
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { useUiStore } from "../store/uiStore";
 import { useCartStore } from "../store/cartStore";
+import ProductImage from "../utils/Product.vue";
 import router from "../router/Router";
 
 const uiStore = useUiStore();
 const cartStore = useCartStore();
 
-const products = ref(cartStore.items);
+const products = ref(cartCondense());
 
 const total = cartStore.items.reduce((a, b) => a + b.price, 0);
 
-watch(
-  () => cartStore.items,
-  () => {
-    products.value = cartStore.items.map((x) => {
-      x.qty = 0;
-      newVal.map((y) => {
-        if (x === y) x.qty++;
-      });
-      return x;
-    });
-  }
-);
+function cartCondense() {
+  const cartList: any = [];
+  cartStore.items.forEach((item) => {
+    const index = cartList.findIndex((x) => x.uuid === item.uuid);
+    if (index >= 0) {
+      cartList[index].quantity += 1;
+    } else {
+      cartList.push({ ...item, quantity: 1 });
+    }
+    item.total = item.price * item.quantity;
+  });
+  console.log(cartList);
+  return cartList;
+}
+
+watch(cartStore.items, () => {
+  products.value = cartCondense();
+});
 </script>

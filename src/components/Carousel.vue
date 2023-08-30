@@ -20,6 +20,5 @@
 <script setup lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import CloudinaryImage from "../utils/Cloudinary.vue";
-
+import CloudinaryImage from "../utils/carousel.vue";
 </script>
