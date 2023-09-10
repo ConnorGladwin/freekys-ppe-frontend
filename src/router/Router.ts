@@ -33,6 +33,11 @@ const routes = [
     name: "checkout",
     component: () => import("../views/Checkout.vue"),
   },
+  {
+    path: "/quote",
+    name: "quote",
+    component: () => import("../utils/quote.vue")
+  }
 ];
 
 const router = createRouter({
