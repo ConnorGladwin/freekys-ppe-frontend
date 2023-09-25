@@ -61,7 +61,7 @@
                             <div
                               class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md"
                             >
-                              <ProductImage :image="product?.sku" />
+                              <img :src="product?.image" alt="" />
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
@@ -74,7 +74,16 @@
                                       product.product
                                     }}</a>
                                   </h3>
-                                  <p class="ml-4">R100</p>
+                                  <div class="flex flex-col">
+                                    <p class="ml-4">R{{ product?.price }}</p>
+                                    <p class="ml-4">
+                                      R{{
+                                        (
+                                          product?.price * product?.quantity
+                                        ).toFixed(2)
+                                      }}
+                                    </p>
+                                  </div>
                                 </div>
                                 <p class="mt-1 text-sm text-gray-500">
                                   {{ product?.brand }}
@@ -136,7 +145,7 @@
                         <button
                           type="button"
                           class="font-medium text-[#1c70b8] hover:text-indigo-500"
-                          @click="open = false"
+                          @click="uiStore.cartOpen = false"
                         >
                           Continue Shopping
                           <span aria-hidden="true"> &rarr;</span>
@@ -155,7 +164,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
+// @ts-ignore
 import {
   Dialog,
   DialogPanel,
@@ -166,20 +176,27 @@ import {
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { useUiStore } from "../store/uiStore";
 import { useCartStore } from "../store/cartStore";
-import ProductImage from "../utils/Product.vue";
-import router from "../router/Router";
 
 const uiStore = useUiStore();
 const cartStore = useCartStore();
 
 const products = ref(cartCondense());
+let total = calcTotal();
 
-const total = cartStore.items.reduce((a, b) => a + b.price, 0);
+function calcTotal() {
+  let total: any = 0;
+
+  cartStore.items.map((x) => {
+    total = parseFloat(total) + parseFloat(x?.price);
+  });
+
+  return total.toFixed(2);
+}
 
 function cartCondense() {
   const cartList: any = [];
   cartStore.items.forEach((item) => {
-    const index = cartList.findIndex((x) => x.uuid === item.uuid);
+    const index = cartList.findIndex((x: any) => x.uuid === item.uuid);
     if (index >= 0) {
       cartList[index].quantity += 1;
     } else {
@@ -187,11 +204,12 @@ function cartCondense() {
     }
     item.total = item.price * item.quantity;
   });
-  console.log(cartList);
+
   return cartList;
 }
 
 watch(cartStore.items, () => {
   products.value = cartCondense();
+  total = calcTotal();
 });
 </script>

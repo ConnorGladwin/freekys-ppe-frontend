@@ -4,11 +4,7 @@
     <MenuItems
       class="absolute border py-2 w-[250px] mx-4 mt-2 bg-white z-50 flex flex-col"
     >
-      <MenuItem
-        v-for="item in menuList"
-        class="hover:bg-gray-100 px-3"
-        
-      >
+      <MenuItem v-for="item in menuList" class="hover:bg-gray-100 px-3">
         <router-link
           :to="{
             name: 'products',
@@ -81,6 +77,15 @@ const menuList = [
   {
     name: "Reflective Vests",
     category: "/reflective-vests",
+  },
+  { name: "ARC Equipment", category: "/arc-equipment" },
+  {
+    name: "Barrier Netting",
+    category: "/barrier-netting",
+  },
+  {
+    name: "Corporate Wear",
+    category: "/corporate-wear",
   },
 ];
 </script>

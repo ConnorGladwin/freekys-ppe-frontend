@@ -1,13 +1,26 @@
 <template>
   <div class="w-full flex justify-center mb-8">
-    <div class="w-1/2">
+    <div class="w-2/3">
       <div class="grid grid-rows-3 grid-cols-3 gap-3">
         <div
-          v-for="catagory in catagoryList"
-          :key="catagory"
-          class="w-full h-[315px] border flex justify-center items-center text-xl hover:text-2xl hover:bg-gray-50 hover:shadow-xl hover:border-none transition-all ease-in-out duration-300 cursor-pointer"
+          v-for="category in categoryList"
+          :key="categoryList.indexOf(category)"
+          class="w-full h-[315px] flex justify-center items-center text-xl rounded-sm group hover:tracking-wide hover:bg-gray-50 hover:shadow-xl transition-all ease-in-out duration-300 cursor-pointer"
         >
-          <img src="" alt="" class="w-full h-full object-cover" />
+          <router-link
+            :to="{ name: 'freekysPicks', params: { category: category?.name } }"
+            class="w-[325px] h-[315px]"
+          >
+            <img
+              :src="category.image"
+              alt=""
+              class="w-[315px] h-[315px] object-cover absolute group-hover:opacity-80"
+            />
+            <span
+              class="h-full w-full relative text-outline break-words flex justify-center items-center group-hover:text-gray-50 group-hover:font-bold"
+              >{{ category.name }}</span
+            >
+          </router-link>
         </div>
       </div>
     </div>
@@ -15,18 +28,56 @@
 </template>
 
 <script setup lang="ts">
-const catagoryList = [
-  "Category 1",
-  "Category 2",
-  "Category 3",
-  "Category 4",
-  "Category 5",
-  "Category 6",
-  "Category 7",
-  "Category 8",
-  "Category 9",
-  "Category 10",
-  "Category 11",
-  "Category 12",
+const categoryList = [
+  {
+    name: "Welder",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694936642/welder.jpg",
+  },
+  {
+    name: "Artisans",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937663/Trade-testing_xxnw1u.jpg",
+  },
+  {
+    name: "Boilermaker",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937356/Boilermaker_tgbwfb.webp",
+  },
+  {
+    name: "Assistant / Cleaner",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937500/young-african-american-man-workwear-cleaning-floor-contemporary-office_274679-35135_qhr0hx.avif",
+  },
+  {
+    name: "Construction",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937219/imgonline-com-ua-Resize-Tq0MSelOAZGAjEF-1-1_kzv5pj.jpg",
+  },
+  {
+    name: "Farm Worker",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937432/113a8cf8-farm-workers-us-ettyimages-1211310309-copy-2-scaled_oj6bhq.jpg",
+  },
+  {
+    name: "Food Processing",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937776/94216498_oyphy6.webp",
+  },
+  {
+    name: "Chemical",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694938035/02.23.01_rvmwh9.jpg",
+  },
+  {
+    name: "Electrical Contractors",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694937833/man-electrical-technician-working-switchboard-with-fuses_169016-24062_pecp5d.avif",
+  },
+  {
+    name: "Warehousing",
+    image:
+      "https://res.cloudinary.com/dnogg21dd/image/upload/v1694938151/warehouse-distribution_cu2wtk.jpg",
+  },
 ];
 </script>

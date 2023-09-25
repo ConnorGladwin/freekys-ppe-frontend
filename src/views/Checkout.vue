@@ -24,7 +24,7 @@
               class="flex items-start space-x-4 py-6"
             >
               <img
-                :src="product.imageSrc"
+                :src="product?.image"
                 :alt="product.imageAlt"
                 class="h-20 w-20 flex-none rounded-md object-cover object-center"
               />
@@ -44,19 +44,19 @@
           >
             <div class="flex items-center justify-between">
               <dt class="text-gray-600">Subtotal</dt>
-              <dd>$320.00</dd>
+              <dd>R{{ total }}</dd>
             </div>
 
             <div class="flex items-center justify-between">
               <dt class="text-gray-600">Shipping</dt>
-              <dd>$15.00</dd>
+              <dd>TBD</dd>
             </div>
 
             <div
               class="flex items-center justify-between border-t border-gray-200 pt-6"
             >
               <dt class="text-base">Total</dt>
-              <dd class="text-base">$361.80</dd>
+              <dd class="text-base">R{{ total }}</dd>
             </div>
           </dl>
 
@@ -72,7 +72,7 @@
                   class="flex w-full items-center py-6 font-medium"
                 >
                   <span class="mr-auto text-base">Total</span>
-                  <span class="mr-2 text-base">$361.80</span>
+                  <span class="mr-2 text-base">{{ total }}</span>
                   <ChevronUpIcon
                     class="h-5 w-5 text-gray-500"
                     aria-hidden="true"
@@ -110,7 +110,7 @@
                     <dl class="mx-auto max-w-lg space-y-6">
                       <div class="flex items-center justify-between">
                         <dt class="text-gray-600">Subtotal</dt>
-                        <dd>$320.00</dd>
+                        <dd>{{ total }}</dd>
                       </div>
 
                       <div class="flex items-center justify-between">
@@ -279,7 +279,6 @@
                 id="same-as-shipping"
                 name="same-as-shipping"
                 type="checkbox"
-                checked=""
                 class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
               <div class="ml-2">
@@ -322,7 +321,34 @@ import { useCartStore } from "../store/cartStore";
 
 const cartStore = useCartStore();
 
-console.log(cartStore);
+function calcTotal() {
+  let total: any = 0;
 
-const products = cartStore.getItems;
+  cartStore.items.map((x) => {
+    total = parseFloat(total) + parseFloat(x?.price);
+  });
+
+  return total.toFixed(2);
+}
+
+function cartCondense() {
+  const cartList: any = [];
+  cartStore.items.forEach((item) => {
+    const index = cartList.findIndex((x) => x.uuid === item.uuid);
+    if (index >= 0) {
+      cartList[index].quantity += 1;
+    } else {
+      cartList.push({ ...item, quantity: 1 });
+    }
+    item.total = item.price * item.quantity;
+  });
+
+  console.log(cartList);
+
+  return cartList;
+}
+
+const total = calcTotal();
+
+const products = cartCondense();
 </script>

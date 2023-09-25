@@ -3,10 +3,7 @@
     <div class="w-2/3 h-1/2 flex">
       <div class="w-1/2 h-full flex justify-center">
         <div class="h-[90%] w-[90%] flex justify-center items-center">
-          <ProductImage
-            :image="product?.sku"
-            class="h-full w-auto object-cover object-center group-hover:opacity-75"
-          />
+          <img :src="product?.image" alt="" />
         </div>
       </div>
       <div class="w-1/2 h-full flex items-center">
@@ -14,7 +11,7 @@
           <span class="ml-3 text-xl">SKU: {{ product?.sku }}</span>
           <span class="ml-3 text-2xl">Brand: {{ product?.brand }}</span>
           <span class="ml-3 text-3xl">{{ product?.product }}</span>
-          <span class="ml-3 text-2xl">R100</span>
+          <span class="ml-3 text-2xl">R{{ product?.price }}</span>
           <button
             @click="
               cartStore.addItem(product);
@@ -48,5 +45,6 @@ const product = ref<any>(null);
 
 onMounted(async () => {
   product.value = await getProduct(props.id);
+  console.log(product);
 });
 </script>

@@ -23,6 +23,16 @@ const routes = [
     component: () => import("../views/Products.vue"),
   },
   {
+    path: "/products/brandCategory",
+    name: "brand-category",
+    component: () => import("../views/ProductsByBrand.vue"),
+  },
+  {
+    path: "/products/freekys-picks/:category",
+    name: "freekysPicks",
+    component: () => import("../views/FreekysPicks.vue"),
+  },
+  {
     path: "/product/:id",
     props: true,
     name: "product",
@@ -36,8 +46,8 @@ const routes = [
   {
     path: "/quote",
     name: "quote",
-    component: () => import("../utils/quote.vue")
-  }
+    component: () => import("../utils/quote.vue"),
+  },
 ];
 
 const router = createRouter({
