@@ -43,8 +43,13 @@
             class="hidden space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-900 lg:block"
           >
             <div class="flex items-center justify-between">
-              <dt class="text-gray-600">Subtotal</dt>
+              <dt class="text-gray-600">Subtotal excl. vat</dt>
               <dd>R{{ total }}</dd>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <dt class="text-gray-600">Subtotal incl. vat</dt>
+              <dd>R{{ total * 1.15 }}</dd>
             </div>
 
             <div class="flex items-center justify-between">
@@ -151,11 +156,12 @@
               >
               <div class="mt-1">
                 <input
+                  v-model="email"
                   type="email"
                   id="email-address"
                   name="email-address"
                   autocomplete="email"
-                  class="block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2"
+                  class="block w-full rounded-md border border-gray-300 shadow-sm sm:text-sm p-2"
                 />
               </div>
             </div>
@@ -175,10 +181,11 @@
                 >
                 <div class="mt-1">
                   <input
+                    v-model="company"
                     type="text"
                     id="company"
                     name="company"
-                    class="block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2"
+                    class="block w-full rounded-md border border-gray-300 shadow-sm sm:text-sm p-2"
                   />
                 </div>
               </div>
@@ -191,11 +198,12 @@
                 >
                 <div class="mt-1">
                   <input
+                    v-model="streetAddress"
                     type="text"
                     id="address"
                     name="address"
                     autocomplete="street-address"
-                    class="block w-full rounded-md border-gray-300 shadow-sm p-2 sm:text-sm"
+                    class="block w-full rounded-md border border-gray-300 shadow-sm p-2 sm:text-sm"
                   />
                 </div>
               </div>
@@ -208,10 +216,11 @@
                 >
                 <div class="mt-1">
                   <input
+                    v-model="optAddress"
                     type="text"
                     id="apartment"
                     name="apartment"
-                    class="block w-full rounded-md border-gray-300 shadow-sm p-2 sm:text-sm"
+                    class="block w-full rounded-md border border-gray-300 shadow-sm p-2 sm:text-sm"
                   />
                 </div>
               </div>
@@ -219,16 +228,17 @@
               <div>
                 <label
                   for="city"
-                  class="block text-sm font-medium text-gray-700"
+                  class="block w-full text-sm font-medium text-gray-700"
                   >City</label
                 >
                 <div class="mt-1">
                   <input
+                    v-model="city"
                     type="text"
                     id="city"
                     name="city"
                     autocomplete="address-level2"
-                    class="block w-full rounded-md border-gray-300 shadow-sm p-2 sm:text-sm"
+                    class="block w-full rounded-md border border-gray-300 shadow-sm p-2 sm:text-sm"
                   />
                 </div>
               </div>
@@ -241,11 +251,12 @@
                 >
                 <div class="mt-1">
                   <input
+                    v-model="province"
                     type="text"
                     id="region"
                     name="region"
                     autocomplete="address-level1"
-                    class="block w-full rounded-md border-gray-300 shadow-sm p-2 sm:text-sm"
+                    class="block w-full rounded-md border border-gray-300 shadow-sm p-2 sm:text-sm"
                   />
                 </div>
               </div>
@@ -258,11 +269,12 @@
                 >
                 <div class="mt-1">
                   <input
+                    v-model="postalCode"
                     type="text"
                     id="postal-code"
                     name="postal-code"
                     autocomplete="postal-code"
-                    class="block w-full rounded-md border-gray-300 shadow-sm p-2 sm:text-sm"
+                    class="block w-full rounded-md border border-gray-300 shadow-sm p-2 sm:text-sm"
                   />
                 </div>
               </div>
@@ -274,7 +286,7 @@
             <!--   Create Account -->
             <!-- </h2> -->
 
-            <div class="mt-6 flex items-center">
+            <div v-if="createAccount == true" class="mt-6 flex items-center">
               <input
                 id="same-as-shipping"
                 name="same-as-shipping"
@@ -292,11 +304,11 @@
           </section>
 
           <div
-            class="mt-10 border-gray-200 pt-6 sm:flex sm:items-center sm:justify-between"
+            class="mt-10 flex justify-start items-start border-gray-200 pt-6"
           >
             <button
               type="submit"
-              class="w-full rounded-md border border-transparent bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200 sm:order-last sm:ml-6 sm:w-auto"
+              class="rounded-md border border-transparent bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200 sm:order-last sm:w-auto"
             >
               Complete Quote
             </button>
@@ -308,6 +320,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
 import {
   Popover,
   PopoverButton,
@@ -318,8 +331,11 @@ import {
 } from "@headlessui/vue";
 import { ChevronUpIcon } from "@heroicons/vue/20/solid";
 import { useCartStore } from "../store/cartStore";
+import { getUser } from "../utils/queries";
+import { useUserStore } from "../store/userStore";
 
 const cartStore = useCartStore();
+const userStore = useUserStore();
 
 function calcTotal() {
   let total: any = 0;
@@ -343,12 +359,43 @@ function cartCondense() {
     item.total = item.price * item.quantity;
   });
 
-  console.log(cartList);
-
   return cartList;
 }
 
-const total = calcTotal();
-
+const total: any = calcTotal();
 const products = cartCondense();
+
+const email = ref("");
+const company = ref("");
+const streetAddress = ref("");
+const optAddress = ref("");
+const city = ref("");
+const province = ref("");
+const postalCode = ref("");
+const createAccount = ref(true);
+
+onMounted(async () => {
+  if (userStore.email == "" && window.localStorage.getItem("id")) {
+    const setUser = await getUser();
+    userStore.setUser(setUser[0]);
+    email.value = userStore.email;
+    company.value = userStore.company;
+    streetAddress.value = userStore.streetAddress;
+    optAddress.value = userStore.optAddress;
+    city.value = userStore.city;
+    province.value = userStore.province;
+    postalCode.value = userStore.postalCode;
+    createAccount.value = false;
+  } else if (userStore.email != "") {
+    email.value = userStore.email;
+    company.value = userStore.company;
+    streetAddress.value = userStore.streetAddress;
+    optAddress.value = userStore.optAddress;
+    city.value = userStore.city;
+    province.value = userStore.province;
+    postalCode.value = userStore.postalCode;
+    createAccount.value = false;
+  }
+  console.log(userStore);
+});
 </script>

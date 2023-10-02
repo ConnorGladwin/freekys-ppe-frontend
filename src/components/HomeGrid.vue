@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full flex justify-center mb-8">
-    <div class="w-2/3">
+  <div class="w-[1000px] flex justify-center mb-8">
+    <div class="w-full">
       <div class="grid grid-rows-3 grid-cols-3 gap-3">
         <div
           v-for="category in categoryList"
@@ -17,7 +17,7 @@
               class="w-[315px] h-[315px] object-cover absolute group-hover:opacity-80"
             />
             <span
-              class="h-full w-full relative text-outline break-words flex justify-center items-center group-hover:text-gray-50 group-hover:font-bold"
+              class="h-full w-[315px] relative text-outline break-words bg-black bg-opacity-50 flex justify-center items-center text-gray-50 group-hover:font-bold"
               >{{ category.name }}</span
             >
           </router-link>

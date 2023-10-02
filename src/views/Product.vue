@@ -8,10 +8,15 @@
       </div>
       <div class="w-1/2 h-full flex items-center">
         <div class="my-auto flex flex-col justify-center">
-          <span class="ml-3 text-xl">SKU: {{ product?.sku }}</span>
-          <span class="ml-3 text-2xl">Brand: {{ product?.brand }}</span>
+          <span class="ml-3 text-lg">SKU: {{ product?.sku }}</span>
+          <span class="ml-3 text-xl"> {{ product?.brand }}</span>
           <span class="ml-3 text-3xl">{{ product?.product }}</span>
-          <span class="ml-3 text-2xl">R{{ product?.price }}</span>
+          <span v-if="product?.material" class="ml-3 text-xl"
+            >Material: {{ product?.material }}</span
+          >
+          <span class="ml-3 text-2xl"
+            >R{{ product?.price }} <span class="text-sm">excl.</span></span
+          >
           <button
             @click="
               cartStore.addItem(product);
@@ -32,7 +37,6 @@ import { onMounted, ref } from "vue";
 import { getProduct } from "../utils/queries";
 import { useCartStore } from "../store/cartStore";
 import { useUiStore } from "../store/uiStore";
-import ProductImage from "../utils/Product.vue";
 
 const props = defineProps<{
   id: any;
@@ -45,6 +49,6 @@ const product = ref<any>(null);
 
 onMounted(async () => {
   product.value = await getProduct(props.id);
-  console.log(product);
+  console.log(product.value);
 });
 </script>

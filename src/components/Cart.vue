@@ -51,7 +51,13 @@
                     </div>
 
                     <div class="mt-8">
-                      <div class="flow-root">
+                      <div
+                        v-if="cartStore.items.length < 1"
+                        class="w-full h-full flex justify-center py-12"
+                      >
+                        <span>No Items in Cart.</span>
+                      </div>
+                      <div v-else class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
                           <li
                             v-for="product in products"
@@ -131,6 +137,11 @@
                       :to="{ name: 'checkout' }"
                       @click="uiStore.cartOpen = false"
                       class="mt-6"
+                      :class="
+                        cartStore.items.length < 1
+                          ? 'opacity-50 cursor-not-allowed pointer-events-none'
+                          : ''
+                      "
                     >
                       <a
                         class="flex items-center justify-center rounded-md border border-transparent bg-[#1c70b8] px-6 py-3 text-base font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200"

@@ -1,4 +1,7 @@
-const url = "https://freekys-backend.onrender.com";
+import { useUserStore } from "../store/userStore";
+
+const userStore = useUserStore();
+const url = "http://localhost:3000";
 
 export async function getProductCategory(query: string) {
   const response = await fetch(`${url}/product/category/${query}`).then(
@@ -31,4 +34,20 @@ export async function getProduct(query: string) {
     return res.json();
   });
   return response[0];
+}
+
+export async function createOrder(itemList: any) {
+  //
+}
+
+export async function getUser() {
+  if (window.localStorage.getItem("id")) {
+    const response = await fetch(
+      `${url}/user/get?id=${window.localStorage.getItem("id")}`,
+    );
+
+    const user = await response.json();
+
+    return user;
+  }
 }

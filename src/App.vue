@@ -1,9 +1,9 @@
 <template>
-  <div class="w-screen h-screen bg-white">
+  <div class="h-screen bg-white">
     <div class="h-[10%]">
       <Header />
     </div>
-    <div class="h-screen w-screen bg-white">
+    <div class="h-screen bg-white">
       <Suspense>
         <router-view></router-view>
       </Suspense>

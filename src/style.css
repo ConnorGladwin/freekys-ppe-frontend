@@ -8,6 +8,8 @@
 }
 
 :root {
+  max-width: screen;
+  margin: 0;
   font-family: LemonMilk;
   line-height: 1.5;
   font-weight: 400;

@@ -19,7 +19,7 @@
         >
           <router-link :to="{ name: 'product', params: { id: product.uuid } }">
             <div
-              class="w-[280px] h-[280px] flex items-center rounded-lg bg-gray-200xl:aspect-w-7 shadow-lg hover:scale-[1.05] transition duration-400"
+              class="w-[280px] h-[280px] flex items-center hover:scale-[1.05] transition duration-400"
             >
               <img :src="product.image" alt="" />
             </div>
@@ -55,7 +55,13 @@ watch(
   async () => {
     window.scrollTo(-100, -100);
     uiStore.productDropdownOpen = false;
-    products.value = await getProductCategoryBrand(category, brand).then(
+    let query = "";
+    if (brand == "All") {
+      query = "*";
+    } else {
+      query = brand;
+    }
+    products.value = await getProductCategoryBrand(category, query).then(
       (res: any) => {
         const categoryList: any = [];
 
@@ -72,7 +78,13 @@ watch(
 onMounted(async () => {
   window.scrollTo(-100, -100);
   uiStore.toggleProductDropdown();
-  products.value = await getProductCategoryBrand(category, brand).then(
+  let query = "";
+  if (brand == "All") {
+    query = "*";
+  } else {
+    query = brand;
+  }
+  products.value = await getProductCategoryBrand(category, query).then(
     (res: any) => {
       const categoryList: any = [];
       console.log(res);
