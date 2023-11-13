@@ -44,7 +44,25 @@
               </div>
             </div>
           </div>
-          <div>Account</div>
+          <div
+            @click="uiStore.toggleAuthModal()"
+            class="hover-underline-animation hover:text-black"
+          >
+            Account
+          </div>
+          <TransitionRoot
+            appear
+            :show="uiStore.authOpen"
+            enter="transition-opacity duration-150"
+            enter-from="opacity-0"
+            enter-to="opacity-100"
+            leave="transition-opacity duration-150"
+            leave-from="opacity-100"
+            leave-to="opacity-0"
+            class="w-[350px] h-auto bg-white rounded-md shadow-lg border absolute top-[80px] right-[1%]"
+          >
+            <AuthModal />
+          </TransitionRoot>
         </div>
       </div>
     </div>
@@ -53,9 +71,11 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { TransitionRoot } from "@headlessui/vue";
 import { useUiStore } from "../store/uiStore";
 import { useCartStore } from "../store/cartStore";
 import HeaderDropdown from "./HeaderDropdown.vue";
+import AuthModal from "./AuthModal.vue";
 
 const uiStore = useUiStore();
 const cartStore = useCartStore();
@@ -66,6 +86,6 @@ watch(
   () => cartStore.getItems.length,
   (newVal) => {
     cartCount.value = newVal;
-  }
+  },
 );
 </script>

@@ -4,6 +4,7 @@ export const useUiStore = defineStore("ui", {
   state: () => ({
     productDropdownOpen: false,
     cartOpen: false,
+    authOpen: false,
   }),
   getters: {
     isProductDropdownOpen: (state) => {
@@ -20,6 +21,9 @@ export const useUiStore = defineStore("ui", {
     },
     toggleCart(bool: boolean) {
       this.cartOpen = bool;
+    },
+    toggleAuthModal() {
+      this.authOpen = !this.authOpen;
     },
   },
 });
