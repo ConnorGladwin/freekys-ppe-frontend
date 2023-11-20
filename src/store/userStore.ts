@@ -18,7 +18,7 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     setUser(user: any) {
-      this.userID = user.userID;
+      // this.userID = user.userID;
       this.email = user.email;
       this.company = user.company;
       this.streetAddress = user.streetAddress;

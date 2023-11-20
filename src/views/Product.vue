@@ -14,7 +14,23 @@
           <span v-if="product?.material" class="ml-3 text-xl"
             >Material: {{ product?.material }}</span
           >
-          <span class="ml-3 text-2xl"
+          <div v-if="colors != null">
+            <div v-if="colors.length < 1" class="flex items-center">
+              <span class="mr-3 ml-3 text-xl">Color:</span>
+              <div v-for="color in colors" :key="color" class="flex">
+                <div
+                  @click="colorSelection = color"
+                  :key="colorSelection"
+                  class="border ml-2 p-1 cursor-pointer text-center"
+                  :class="colorSelection == color ? 'border border-black' : ''"
+                >
+                  {{ color }}
+                </div>
+              </div>
+            </div>
+            <span class="ml-3 text-2xl">Color: {{ colors[0] }}</span>
+          </div>
+          <span else class="ml-3 text-2xl"
             >R{{ product?.price }} <span class="text-sm">excl.</span></span
           >
           <button
@@ -46,9 +62,18 @@ const cartStore = useCartStore();
 const uiStore = useUiStore();
 
 const product = ref<any>(null);
+const colors = ref<any>(null);
+const colorSelection: any = ref("");
 
 onMounted(async () => {
   product.value = await getProduct(props.id);
-  console.log(product.value);
+
+  if (product.value.color?.split(" / ")) {
+    colors.value = product.value.color?.split(" / ");
+    console.log(colors.value.length);
+  } else {
+    console.log("No color");
+    colors.value = null;
+  }
 });
 </script>

@@ -31,11 +31,18 @@
               <div class="flex-auto space-y-1">
                 <h3>{{ product.product }}</h3>
                 <p class="text-gray-500">{{ product.color }}</p>
-                <p class="text-gray-500">{{ product.color }}</p>
+                <!-- <p class="text-gray-500">{{ product.color }}</p> -->
                 <p class="text-gray-500">{{ product.material }}</p>
                 <p class="text-gray-500">Qty: {{ product.quantity }}</p>
               </div>
-              <p class="flex-none text-base font-medium">{{ product.price }}</p>
+              <div>
+                <p class="flex-none text-base font-medium">
+                  R{{ product.price }}
+                </p>
+                <p class="flex-none text-base font-medium">
+                  R{{ product.price * product.quantity }}
+                </p>
+              </div>
             </li>
           </ul>
 
@@ -49,7 +56,7 @@
 
             <div class="flex items-center justify-between">
               <dt class="text-gray-600">Subtotal incl. vat</dt>
-              <dd>R{{ total * 1.15 }}</dd>
+              <dd>R{{ (total * 1.15).toFixed(2) }}</dd>
             </div>
 
             <div class="flex items-center justify-between">
@@ -61,7 +68,7 @@
               class="flex items-center justify-between border-t border-gray-200 pt-6"
             >
               <dt class="text-base">Total</dt>
-              <dd class="text-base">R{{ total }}</dd>
+              <dd class="text-base">R{{ (total * 1.15).toFixed(2) }}</dd>
             </div>
           </dl>
 
@@ -306,12 +313,12 @@
           <div
             class="mt-10 flex justify-start items-start border-gray-200 pt-6"
           >
-            <button
-              type="submit"
-              class="rounded-md border border-transparent bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200 sm:order-last sm:w-auto"
+            <div
+              @click="completeQuote()"
+              class="rounded-md border border-transparent cursor-pointer bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200 sm:order-last sm:w-auto"
             >
               Complete Quote
-            </button>
+            </div>
           </div>
         </div>
       </form>
@@ -331,7 +338,7 @@ import {
 } from "@headlessui/vue";
 import { ChevronUpIcon } from "@heroicons/vue/20/solid";
 import { useCartStore } from "../store/cartStore";
-import { getUser } from "../utils/queries";
+import { getUser, createOrder } from "../utils/queries";
 import { useUserStore } from "../store/userStore";
 
 const cartStore = useCartStore();
@@ -374,28 +381,43 @@ const province = ref("");
 const postalCode = ref("");
 const createAccount = ref(true);
 
-onMounted(async () => {
-  if (userStore.email == "" && window.localStorage.getItem("id")) {
-    const setUser = await getUser();
-    userStore.setUser(setUser[0]);
-    email.value = userStore.email;
-    company.value = userStore.company;
-    streetAddress.value = userStore.streetAddress;
-    optAddress.value = userStore.optAddress;
-    city.value = userStore.city;
-    province.value = userStore.province;
-    postalCode.value = userStore.postalCode;
-    createAccount.value = false;
-  } else if (userStore.email != "") {
-    email.value = userStore.email;
-    company.value = userStore.company;
-    streetAddress.value = userStore.streetAddress;
-    optAddress.value = userStore.optAddress;
-    city.value = userStore.city;
-    province.value = userStore.province;
-    postalCode.value = userStore.postalCode;
-    createAccount.value = false;
-  }
-  console.log(userStore);
-});
+async function completeQuote() {
+  const list = cartCondense();
+  const customer = {
+    email: email.value,
+    company: company.value,
+    streetAddress: streetAddress.value,
+    optAddress: optAddress.value,
+    city: city.value,
+    province: province.value,
+    postalCode: postalCode.value,
+  };
+
+  await createOrder(list, customer);
+}
+
+// onMounted(async () => {
+//   if (userStore.email == "" && window.localStorage.getItem("id")) {
+//     const setUser = await getUser();
+//     userStore.setUser(setUser[0]);
+//     email.value = userStore.email;
+//     company.value = userStore.company;
+//     streetAddress.value = userStore.streetAddress;
+//     optAddress.value = userStore.optAddress;
+//     city.value = userStore.city;
+//     province.value = userStore.province;
+//     postalCode.value = userStore.postalCode;
+//     createAccount.value = false;
+//   } else if (userStore.email != "") {
+//     email.value = userStore.email;
+//     company.value = userStore.company;
+//     streetAddress.value = userStore.streetAddress;
+//     optAddress.value = userStore.optAddress;
+//     city.value = userStore.city;
+//     province.value = userStore.province;
+//     postalCode.value = userStore.postalCode;
+//     createAccount.value = false;
+//   }
+//   console.log(userStore);
+// });
 </script>

@@ -1,7 +1,7 @@
 import { useUserStore } from "../store/userStore";
 
 const userStore = useUserStore();
-const url = "https://freekys-backend.onrender.com";
+const url = "http://localhost:3000";
 
 export async function getProductCategory(query: string) {
   const response = await fetch(`${url}/product/category/${query}`).then(
@@ -36,8 +36,23 @@ export async function getProduct(query: string) {
   return response[0];
 }
 
-export async function createOrder(itemList: any) {
-  //
+export async function createOrder(itemList: any, customer: any) {
+  const items = itemList.map((x) => {
+    return {
+      product: x.product,
+      quantity: x.quantity,
+      price: x.price,
+      uuid: x.uuid,
+    };
+  });
+
+  console.log(items);
+
+  const response = await fetch(
+    `${url}/createOrder?customer=${JSON.stringify(
+      customer,
+    )}&items=${JSON.stringify(items)}`,
+  );
 }
 
 export async function getUser() {
