@@ -1,7 +1,7 @@
 import { useUserStore } from "../store/userStore";
 
 const userStore = useUserStore();
-const url = "http://localhost:3000";
+const url = "https://freekys-backend.onrender.com";
 
 export async function getProductCategory(query: string) {
   const response = await fetch(`${url}/product/category/${query}`).then(
