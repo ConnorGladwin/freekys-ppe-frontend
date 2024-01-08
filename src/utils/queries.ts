@@ -1,7 +1,8 @@
 import { useUserStore } from "../store/userStore";
 
 const userStore = useUserStore();
-const url = "http://localhost:3000";
+const url =
+  "postgres://admin:8ITIvdmukCZum9Hh68IAE1EB1QUCI7mN@dpg-ciua4i5iuiedpv7hi7eg-a.frankfurt-postgres.render.com/freekys_ppe?ssl=true";
 
 export async function getProductCategory(query: string) {
   const response = await fetch(`${url}/product/category/${query}`).then(
