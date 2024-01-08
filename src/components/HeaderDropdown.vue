@@ -1,6 +1,6 @@
 <template>
   <Menu>
-    <MenuButton>Products</MenuButton>
+    <MenuButton class="text-2xl">Products</MenuButton>
     <MenuItems
       class="absolute border py-2 w-[250px] mx-4 mt-2 bg-white z-50 flex flex-col"
     >

@@ -8,6 +8,18 @@
       class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
     >
       <h2 class="text-3xl mb-4">{{ brand }} {{ category }}</h2>
+      <div v-if="category" class="flex">
+        <router-link :to="{ name: 'home' }">
+          <HomeIcon class="w-5 hover-underline-animation" />
+        </router-link>
+        <ChevronRightIcon class="w-5 text-black" />
+        <router-link
+          :to="{ name: 'products', params: { category: category } }"
+          class="hover-underline-animation"
+          >{{ category }}</router-link
+        >
+      </div>
+
       <div
         class="overflow-hidden grid pt-8 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
       >
@@ -40,6 +52,7 @@ import { getProductCategoryBrand } from "../utils/queries";
 import { useUiStore } from "../store/uiStore";
 import { useRoute } from "vue-router";
 import OverlayerLoader from "../components/OverlayerLoader.vue";
+import { ChevronRightIcon, HomeIcon } from "@heroicons/vue/24/outline";
 
 const route = useRoute();
 const uiStore = useUiStore();

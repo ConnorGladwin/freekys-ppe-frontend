@@ -1,6 +1,11 @@
 <template>
   <div class="w-[1000px] flex justify-center mb-8">
     <div class="w-full">
+      <div class="py-3 mb-2">
+        <span class="text-4xl border-b-4 border-[--primary-blue]"
+          >Freeky's Picks</span
+        >
+      </div>
       <div class="grid grid-rows-3 grid-cols-3 gap-3">
         <div
           v-for="category in categoryList"

@@ -1,7 +1,7 @@
 <template>
-  <div class="h-[80%] flex justify-center items-center">
+  <div class="h-[80%] mt-8 flex justify-center items-center">
     <div
-      class="w-1/2 h-2/3 flex items-center bg-white drop-shadow-xl border rounded-xl"
+      class="w-1/2 h-2/3 flex items-center bg-white drop-shadow-xl py-10 border rounded-xl"
     >
       <div class="h-[80%] flex flex-col items-center justify-center">
         <span class="text-3xl border-b border-[--primary-blue] mb-6"

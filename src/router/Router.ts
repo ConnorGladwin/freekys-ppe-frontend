@@ -48,6 +48,16 @@ const routes = [
     name: "quote",
     component: () => import("../utils/quote.vue"),
   },
+  {
+    path: "/search/:searchTerm",
+    name: "search",
+    component: () => import("../views/Search.vue"),
+  },
+  {
+    path: "/account",
+    name: "account",
+    component: () => import("../views/Account.vue"),
+  },
 ];
 
 const router = createRouter({

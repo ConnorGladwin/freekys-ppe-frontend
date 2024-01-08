@@ -11,7 +11,11 @@ export const useCartStore = defineStore("cart", {
     },
   },
   actions: {
-    addItem(item: any) {
+    addItem(item: any, color: string, size: string) {
+      console.log(item);
+      item.color = color;
+      item.sizes = size;
+
       this.items.push({
         id: uuidv4(),
         ...item,

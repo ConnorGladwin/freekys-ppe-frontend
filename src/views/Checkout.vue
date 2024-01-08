@@ -30,8 +30,12 @@
               />
               <div class="flex-auto space-y-1">
                 <h3>{{ product.product }}</h3>
-                <p class="text-gray-500">{{ product.color }}</p>
-                <!-- <p class="text-gray-500">{{ product.color }}</p> -->
+                <p v-if="product.color" class="text-gray-500">
+                  Color: {{ product.color }}
+                </p>
+                <p v-if="product.sizes" class="text-gray-500">
+                  Size: {{ product.sizes }}
+                </p>
                 <p class="text-gray-500">{{ product.material }}</p>
                 <p class="text-gray-500">Qty: {{ product.quantity }}</p>
               </div>
@@ -144,6 +148,7 @@
       </section>
 
       <form
+        v-if="orderComplete != true"
         class="px-4 pb-36 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0 lg:pb-16"
       >
         <div class="mx-auto max-w-lg lg:max-w-none">
@@ -168,6 +173,21 @@
                   id="email-address"
                   name="email-address"
                   autocomplete="email"
+                  class="block w-full rounded-md border border-gray-300 shadow-sm sm:text-sm p-2"
+                />
+              </div>
+              <label
+                for="contactNumber"
+                class="block text-sm mt-2 font-medium text-gray-700"
+                >Contact Number</label
+              >
+              <div class="mt-1">
+                <input
+                  v-model="contactNumber"
+                  type="text"
+                  id="contactNumber"
+                  name="contactNumber"
+                  autocomplete=""
                   class="block w-full rounded-md border border-gray-300 shadow-sm sm:text-sm p-2"
                 />
               </div>
@@ -288,40 +308,167 @@
             </div>
           </section>
 
-          <section aria-labelledby="billing-heading" class="mt-10">
-            <!-- <h2 id="billing-heading" class="text-lg font-medium text-gray-900"> -->
-            <!--   Create Account -->
-            <!-- </h2> -->
+          <!-- <section aria-labelledby="billing-heading" class="mt-10"> -->
+          <!-- <h2 id="billing-heading" class="text-lg font-medium text-gray-900"> -->
+          <!--   Create Account -->
+          <!-- </h2> -->
 
-            <div v-if="createAccount == true" class="mt-6 flex items-center">
-              <input
-                id="same-as-shipping"
-                name="same-as-shipping"
-                type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              <div class="ml-2">
-                <label
-                  for="same-as-shipping"
-                  class="text-sm font-medium text-gray-900"
-                  >Create Account</label
-                >
-              </div>
-            </div>
-          </section>
+          <!--   <div v-if="createAccount == true" class="mt-6 flex items-center"> -->
+          <!--     <input -->
+          <!--       id="same-as-shipping" -->
+          <!--       name="same-as-shipping" -->
+          <!--       type="checkbox" -->
+          <!--       class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" -->
+          <!--     /> -->
+          <!--     <div class="ml-2"> -->
+          <!--       <label -->
+          <!--         for="same-as-shipping" -->
+          <!--         class="text-sm font-medium text-gray-900" -->
+          <!--         >Create Account</label -->
+          <!--       > -->
+          <!--     </div> -->
+          <!--   </div> -->
+          <!-- </section> -->
 
           <div
             class="mt-10 flex justify-start items-start border-gray-200 pt-6"
           >
-            <div
-              @click="completeQuote()"
-              class="rounded-md border border-transparent cursor-pointer bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200 sm:order-last sm:w-auto"
-            >
-              Complete Quote
+            <div>
+              <div
+                v-if="loading == true"
+                class="flex justify-center rounded-md border border-transparent cursor-pointer bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm transition duration-200 sm:order-last sm:w-auto"
+              >
+                <svg
+                  class="animate-spin h-5 w-8 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+              <div
+                v-else
+                @click="completeQuote()"
+                class="rounded-md border border-transparent cursor-pointer bg-[#1c70b8] px-4 py-2 text-sm font-medium text-white shadow-sm hover:text-[#1c70b8] hover:bg-white hover:border-[#1c70b8] transition duration-200 sm:order-last sm:w-auto"
+              >
+                Complete Quote
+              </div>
             </div>
           </div>
         </div>
       </form>
+      <div
+        v-else
+        class="px-4 pb-36 pt-16 sm:px-6 lg:col-start-1 lg:row-start-1 lg:px-0 lg:pb-16"
+      >
+        <div class="mx-auto max-w-lg lg:max-w-none">
+          <section aria-labelledby="contact-info-heading">
+            <h2
+              id="contact-info-heading"
+              class="text-lg font-medium text-gray-900"
+            >
+              Contact information
+            </h2>
+
+            <div class="mt-6">
+              <label
+                for="email-address"
+                class="block text-xs font-medium text-gray-700"
+                >Email address</label
+              >
+              <div class="mt-1 text-sm">{{ email }}</div>
+            </div>
+          </section>
+          <section aria-labelledby="shipping-heading" class="mt-6">
+            <h2 id="shipping-heading" class="text-lg font-medium text-gray-900">
+              Shipping address
+            </h2>
+
+            <div class="mt-6 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-3">
+              <div class="sm:col-span-3">
+                <label
+                  for="company"
+                  class="block text-xs font-medium text-gray-700"
+                  >Company</label
+                >
+                <div class="mt-1 text-sm">
+                  {{ company }}
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <label
+                  for="address"
+                  class="block text-xs font-medium text-gray-700"
+                  >Address</label
+                >
+                <div class="mt-1 text-sm">
+                  {{ streetAddress }}
+                </div>
+              </div>
+
+              <div v-if="optAddress != ''" class="sm:col-span-3">
+                <label
+                  for="apartment"
+                  class="block text-xs font-medium text-gray-700"
+                  >Apartment, suite, etc.</label
+                >
+                <div class="mt-1 text-sm">{{ optAddress }}</div>
+              </div>
+
+              <div>
+                <label
+                  for="city"
+                  class="block w-full text-xs font-medium text-gray-700"
+                  >City</label
+                >
+                <div class="mt-1 text-sm">
+                  {{ city }}
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="region"
+                  class="block text-xs font-medium text-gray-700"
+                  >State / Province</label
+                >
+                <div class="mt-1 text-sm">
+                  {{ province }}
+                </div>
+              </div>
+
+              <div>
+                <label
+                  for="postal-code"
+                  class="block text-xs font-medium text-gray-700"
+                  >Postal code</label
+                >
+                <div class="mt-1 text-sm">
+                  {{ postalCode }}
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="mt-10 flex flex-col justify-center items-center">
+            <span class="text-xl">Thank you for choosing Freeky's PPE! </span>
+            <span class="mt-2">A quote is on it's way to your inbox </span>
+          </section>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -372,7 +519,10 @@ function cartCondense() {
 const total: any = calcTotal();
 const products = cartCondense();
 
+const loading = ref(false);
+const orderComplete = ref(false);
 const email = ref("");
+const contactNumber = ref("");
 const company = ref("");
 const streetAddress = ref("");
 const optAddress = ref("");
@@ -382,9 +532,11 @@ const postalCode = ref("");
 const createAccount = ref(true);
 
 async function completeQuote() {
+  loading.value = true;
   const list = cartCondense();
   const customer = {
     email: email.value,
+    contactNumber: contactNumber.value,
     company: company.value,
     streetAddress: streetAddress.value,
     optAddress: optAddress.value,
@@ -393,7 +545,14 @@ async function completeQuote() {
     postalCode: postalCode.value,
   };
 
-  await createOrder(list, customer);
+  await createOrder(list, customer).then((res) => {
+    setTimeout(() => {
+      console.log("waiting");
+      loading.value = false;
+      cartStore.items = [];
+      orderComplete.value = true;
+    }, 2000);
+  });
 }
 
 // onMounted(async () => {

@@ -3,7 +3,7 @@
     <div class="h-[10%]">
       <Header />
     </div>
-    <div class="h-screen bg-white">
+    <div class="h-auto bg-white">
       <Suspense>
         <router-view></router-view>
       </Suspense>

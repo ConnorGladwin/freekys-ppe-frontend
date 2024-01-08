@@ -95,10 +95,20 @@
                                   {{ product?.brand }}
                                 </p>
 
-                                <p class="mt-1 text-sm text-gray-500">
-                                  {{ product?.color }}
+                                <p
+                                  v-if="product.color"
+                                  class="my-1 text-sm text-gray-500"
+                                >
+                                  Color: {{ product?.color }}
+                                </p>
+                                <p
+                                  v-if="product.sizes"
+                                  class="mb-1 text-sm text-gray-500"
+                                >
+                                  Size: {{ product?.sizes }}
                                 </p>
                               </div>
+
                               <div
                                 class="flex flex-1 items-end justify-between text-sm"
                               >
@@ -220,6 +230,11 @@ function cartCondense() {
 }
 
 watch(cartStore.items, () => {
+  products.value = cartCondense();
+  total = calcTotal();
+});
+
+watch(uiStore, () => {
   products.value = cartCondense();
   total = calcTotal();
 });
